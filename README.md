@@ -12,7 +12,9 @@
 
 `FastEnvironment` queries Windows operating system settings (UI language, system locale, BCP-47 tags, 24h/12h time format, short date patterns, number separators, and active keyboard layouts) natively via modern **Java 21+ FFM (Foreign Function & Memory API)** with zero DLL compilation or JNI bridging overhead.
 
-Watch Demo (YouTube) | Watch JMH Benchmark (YouTube)
+[**Watch Demo (YouTube)**](https://youtu.be/WrW0ykpC5CE)
+
+[![FastEnvironment Showcase](docs/screenshot.png)](https://youtu.be/WrW0ykpC5CE)
 
 ---
 
