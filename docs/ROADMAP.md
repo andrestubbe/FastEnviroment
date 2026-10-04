@@ -5,9 +5,9 @@
 ### Core OS Language & Regional Telemetry (v0.1.0)
 **Status:** Released
 - [x] Java 21+ FFM downcalls into Windows `kernel32.dll` and `user32.dll`.
-- [x] Query user preferred UI language (`GetUserDefaultUILanguage`).
-- [x] Query system-wide default UI language (`GetSystemDefaultUILanguage`).
-- [x] Query BCP-47 locale tag (`GetUserDefaultLocaleName`).
+- [x] Query user preferred UI language (`GetUserDefaultUILanguage` -> `LCIDToLocaleName`).
+- [x] Query system-wide default UI language (`GetSystemDefaultUILanguage` -> `LCIDToLocaleName`).
+- [x] Query user and system regional locale names (`GetUserDefaultLocaleName`, `GetSystemDefaultLocaleName`).
 - [x] Query regional time format (24-hour vs 12-hour AM/PM clock detection).
 - [x] Query short date pattern and time format strings (`GetLocaleInfoEx`).
 - [x] Query decimal and thousand separator symbols (`LOCALE_SDECIMAL`, `LOCALE_STHOUSAND`).

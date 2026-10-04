@@ -74,7 +74,7 @@ In modern desktop UI engines, CLI tools, and autonomous AI agents, operating sys
 
 | Feature | Standard JVM `Locale.getDefault()` | PowerShell / WMI Exec | FastEnvironment (FFM) |
 |:---|:---|:---|:---|
-| **Query Latency** | ~0.8 µs (JVM cached state) | 100–300 ms (Subprocess spawn) | **< 0.9 µs (Direct OS FFM downcall)** |
+| **Query Latency** | ~1.2 ns (JVM cached state) | 100–300 ms (Subprocess spawn) | **~1 ns (Cached) / ~550 ns (Live Win32 downcall)** |
 | **Live OS Sync** | ❌ Stale (Set only on JVM boot) | ⚠️ Fresh but high CPU overhead | **✅ Immediate live OS query (`refresh()`)** |
 | **Regional Formats** | Generic JVM locale tables | Complex WMI parsing | **Direct Win32 NLS (`GetLocaleInfoEx`)** |
 | **Keyboard Layout** | ❌ Not available | Complex registry scripts | **Direct Win32 `GetKeyboardLayout`** |
@@ -248,11 +248,12 @@ MIT License — See [LICENSE](LICENSE) file for details.
 
 ## Related Projects
 
-- [FastTheme](https://github.com/andrestubbe/FastTheme) — Native Windows DWM styling and dynamic themes
+- [FastCore](https://github.com/andrestubbe/FastCore) — Native library loader, FFM gateway, and platform abstraction
 - [FastHardware](https://github.com/andrestubbe/FastHardware) — Real-time CPU, RAM, GPU telemetry
-- [FastDisplay](https://github.com/andrestubbe/FastDisplay) — Monitor DPI, resolution, and refresh rate engine
-- [FastUI](https://github.com/andrestubbe/FastUI) — High-performance immediate-mode desktop UI toolkit
-- [FastCore](https://github.com/andrestubbe/FastCore) — Native JNI loader and platform utilities
+- [FastClipboard](https://github.com/andrestubbe/FastClipboard) — Low-latency Windows clipboard engine
+- [FastNotification](https://github.com/andrestubbe/FastNotification) — Native OS toast & notification dispatcher
+- [FastProcess](https://github.com/andrestubbe/FastProcess) — High-speed OS process & PID inspection
+- [FastWindowEvents](https://github.com/andrestubbe/FastWindowEvents) — Native Win32 window event hooks
 
 ---
 
