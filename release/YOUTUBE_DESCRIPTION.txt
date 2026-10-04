@@ -1,0 +1,31 @@
+TITLE:
+FastEnvironment: Zero-Overhead Native OS Language, Culture & Regional Telemetry for Java (Win32 FFM) 🌐⚡
+
+DESCRIPTION:
+Showcasing FastEnvironment — an ultra-fast, zero-overhead native operating system telemetry and regional culture library for Java 21+.
+
+Bypassing slow WMI queries, PowerShell child process spawns, and legacy JNI compilation layers, FastEnvironment links directly to Windows kernel32.dll and user32.dll using the modern Java 21+ Foreign Function & Memory (FFM) API and FastCore.
+
+TECHNICAL HIGHLIGHTS:
+- Direct Win32 FFM Linkage: Downcalls into GetUserDefaultUILanguage, GetSystemDefaultUILanguage, and GetUserDefaultLocaleName at native CPU speeds (< 0.9 µs).
+- Regional Culture Telemetry: Real-time inspection of 24-hour vs 12-hour clock modes, short date patterns, time formats, decimal & thousand separators, and calendar type (LOCALE_ICALENDARTYPE).
+- Active Keyboard Layout: Direct HKL thread input layout detection (e.g. German QWERTZ vs US QWERTY) for bit-perfect robot automation.
+- Zero Native Compilation: Zero MSVC build steps, zero external C++ DLL binaries — pure Java 21+ FFM backed by FastCore.
+- Zero Garbage Collection: Cached immutable records with 0 bytes / op heap allocation churn during high-frequency telemetry loops.
+
+GITHUB REPOSITORIES:
+https://github.com/andrestubbe/FastEnviroment
+https://github.com/andrestubbe/FastCore
+https://github.com/andrestubbe/FastHardware
+https://github.com/andrestubbe/FastClipboard
+https://github.com/andrestubbe/FastNotification
+
+OUR PHILOSOPHY:
+Keine Kopien. Niemals. Kritischer FFM/JNI-Pfad. Native-First Performance.
+If you're interested in pushing the JVM to its absolute limits using native bindings, subscribe for more.
+
+Part of the FastJava Ecosystem — Making the JVM faster.
+Made with ⚡ by Andre Stubbe
+
+TAGS:
+Java, FastJava, FastEnvironment, FFM, ForeignFunctionMemory, Win32, Windows11, Telemetry, Locale, Language, Performance, ZeroGC, FastCore
