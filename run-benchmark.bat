@@ -29,7 +29,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo.
 echo Running JMH Benchmarks...
-java --enable-preview -jar target\benchmarks.jar
+java --enable-preview --enable-native-access=ALL-UNNAMED -jar target\benchmarks.jar
 
 cd ..\..
 pause

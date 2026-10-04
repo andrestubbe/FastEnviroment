@@ -27,7 +27,7 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b %ERRORLEVEL%
 )
 
-java --enable-preview -cp "target\classes;..\..\target\FastEnvironment-0.1.0.jar" fastenvironment.demo.Demo
+java --enable-preview --enable-native-access=ALL-UNNAMED -cp "target\classes;..\..\target\FastEnvironment-0.1.0.jar" fastenvironment.demo.Demo
 
 cd ..\..
 pause
