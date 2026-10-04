@@ -86,7 +86,7 @@ In modern desktop UI engines, CLI tools, and autonomous AI agents, operating sys
 
 - 🌐 **Direct Win32 FFM Interop** — Invokes Windows `kernel32.dll` and `user32.dll` directly via Java 21+ Foreign Function & Memory API (`java.lang.foreign`).
 - ⚡ **Zero Native Compilation** — No MSVC, no CMake, and no separate C++ DLL binary required.
-- 🎯 **Accurate OS UI Language** — Distinguishes between User Preferred UI Language (`GetUserDefaultUILanguage`), System Default (`GetSystemDefaultUILanguage`), and BCP-47 locale tags (`GetUserDefaultLocaleName`).
+- 🎯 **Accurate OS UI Language** — Distinguishes between User UI Language (`GetUserDefaultUILanguage`), System Default (`GetSystemDefaultUILanguage`), and resolves precise BCP-47 language tags via Win32 `LCIDToLocaleName`.
 - 🕒 **Regional Formatting Telemetry** — Extracts active clock format (24-hour vs 12-hour AM/PM), short date format patterns, time patterns, decimal/thousands separators, and calendar type (`LOCALE_ICALENDARTYPE`, e.g. Gregorian) directly from Windows NLS.
 - ⌨️ **Keyboard Layout Detection** — Queries active thread input locale handles (`HKL`) for layout-aware robot automation and hotkeys.
 - 🛡️ **Graceful JVM Fallback** — Transparently falls back to standard JVM `Locale.getDefault()` on non-Windows platforms.
