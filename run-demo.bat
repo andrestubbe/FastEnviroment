@@ -5,7 +5,7 @@ cd /d "%~dp0"
 
 echo ===================================================
 echo   FastEnvironment Terminal Showcase Demo
-echo   OS Language, Regional & Culture Telemetry
+echo   OS Language, Regional and Culture Telemetry
 echo ===================================================
 echo.
 
