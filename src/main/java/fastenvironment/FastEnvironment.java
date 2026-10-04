@@ -56,9 +56,6 @@ public final class FastEnvironment {
         if (NativeKernel32.isAvailable()) {
             int langId = NativeKernel32.getUserDefaultUILanguage();
             String localeName = NativeKernel32.lcidToLocaleName(langId);
-            if (localeName == null || localeName.isBlank()) {
-                localeName = NativeKernel32.getUserDefaultLocaleName();
-            }
             if (localeName != null && !localeName.isBlank()) {
                 cachedUILanguage = LanguageInfo.of(langId, localeName);
                 return cachedUILanguage;
@@ -84,9 +81,6 @@ public final class FastEnvironment {
         if (NativeKernel32.isAvailable()) {
             int langId = NativeKernel32.getSystemDefaultUILanguage();
             String localeName = NativeKernel32.lcidToLocaleName(langId);
-            if (localeName == null || localeName.isBlank()) {
-                localeName = NativeKernel32.getSystemDefaultLocaleName();
-            }
             if (localeName != null && !localeName.isBlank()) {
                 cachedSystemLanguage = LanguageInfo.of(langId, localeName);
                 return cachedSystemLanguage;
@@ -135,7 +129,16 @@ public final class FastEnvironment {
             return cachedRegionalInfo;
         }
 
-        cachedRegionalInfo = new RegionalInfo(true, "yyyy-MM-dd", "HH:mm:ss", ",", ".", 1);
+        Locale def = Locale.getDefault();
+        java.text.DecimalFormatSymbols dfs = java.text.DecimalFormatSymbols.getInstance(def);
+        cachedRegionalInfo = new RegionalInfo(
+                true,
+                "yyyy-MM-dd",
+                "HH:mm:ss",
+                String.valueOf(dfs.getDecimalSeparator()),
+                String.valueOf(dfs.getGroupingSeparator()),
+                1
+        );
         return cachedRegionalInfo;
     }
 

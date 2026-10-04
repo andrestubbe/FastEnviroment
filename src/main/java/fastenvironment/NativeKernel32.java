@@ -96,7 +96,7 @@ final class NativeKernel32 {
                 );
             }
 
-            ok = (getUserUi != null && getLocaleName != null);
+            ok = (getUserUi != null && lcidToLocale != null && getLocaleInfo != null);
         } catch (Throwable t) {
             ok = false;
         }
@@ -173,8 +173,11 @@ final class NativeKernel32 {
         return null;
     }
 
-    public static String lcidToLocaleName(int lcid) {
-        if (LCID_TO_LOCALE_NAME == null || lcid <= 0) return null;
+    public static String lcidToLocaleName(int langId) {
+        if (LCID_TO_LOCALE_NAME == null || langId <= 0) return null;
+        // MAKELCID(lgid, srtid) -> ((DWORD)((((WORD)(srtid)) << 16) | ((WORD)(lgid))))
+        // SORT_DEFAULT = 0x0
+        int lcid = (0x0 << 16) | (langId & 0xFFFF);
         try (Arena arena = Arena.ofConfined()) {
             final int maxLen = 85; // LOCALE_NAME_MAX_LENGTH
             MemorySegment buffer = arena.allocateArray(ValueLayout.JAVA_CHAR, maxLen);
