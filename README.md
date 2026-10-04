@@ -122,6 +122,7 @@ kernel32.dll        user32.dll
 - GetUserDefaultUILanguage
 - GetSystemDefaultUILanguage
 - GetUserDefaultLocaleName
+- GetSystemDefaultLocaleName
 - GetLocaleInfoEx
 - GetKeyboardLayout
 ```

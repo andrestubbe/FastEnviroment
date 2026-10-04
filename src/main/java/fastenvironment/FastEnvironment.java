@@ -134,9 +134,12 @@ public final class FastEnvironment {
     }
 
     /**
-     * Returns the active user keyboard layout identifier (HKL / LANGID).
+     * Returns the active user keyboard layout handle (HKL).
      *
-     * @return 16-bit or 32-bit layout ID, or 0 if unavailable.
+     * <p>The low-order word contains the Language Identifier (LANGID),
+     * and the high-order word contains a device handle to the physical layout.</p>
+     *
+     * @return 64-bit native HKL pointer value, or 0 if unavailable.
      */
     public static long getKeyboardLayout() {
         if (NativeKernel32.isAvailable()) {
