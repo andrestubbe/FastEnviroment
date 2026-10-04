@@ -21,7 +21,7 @@ https://github.com/andrestubbe/FastClipboard
 https://github.com/andrestubbe/FastNotification
 
 OUR PHILOSOPHY:
-Keine Kopien. Niemals. Kritischer FFM/JNI-Pfad. Native-First Performance.
+No copies. Ever. Critical FFM/JNI paths. Native-First performance.
 If you're interested in pushing the JVM to its absolute limits using native bindings, subscribe for more.
 
 Part of the FastJava Ecosystem — Making the JVM faster.
