@@ -20,8 +20,16 @@ import java.util.Locale;
  */
 public final class FastEnvironment {
 
+    // LCTYPE constants from WinNls.h
+    private static final int LOCALE_ITIME = 0x00000023; // 0 = 12-hour, 1 = 24-hour
+    private static final int LOCALE_SSHORTDATE = 0x0000001F; // short date format string
+    private static final int LOCALE_STIMEFORMAT = 0x00001003; // time format string
+    private static final int LOCALE_SDECIMAL = 0x0000000E; // decimal separator
+    private static final int LOCALE_STHOUSAND = 0x0000000F; // thousand separator
+
     private static volatile LanguageInfo cachedUILanguage;
     private static volatile LanguageInfo cachedSystemLanguage;
+    private static volatile RegionalInfo cachedRegionalInfo;
 
     private FastEnvironment() {}
 
@@ -84,10 +92,56 @@ public final class FastEnvironment {
     }
 
     /**
+     * Returns active OS regional formats (date, time 12h/24h, number separators).
+     *
+     * @return active {@link RegionalInfo}
+     */
+    public static RegionalInfo getRegionalInfo() {
+        if (cachedRegionalInfo != null) {
+            return cachedRegionalInfo;
+        }
+
+        if (NativeKernel32.isAvailable()) {
+            String loc = NativeKernel32.getUserDefaultLocaleName();
+            String timeMode = NativeKernel32.getLocaleInfoString(loc, LOCALE_ITIME);
+            boolean is24Hour = "1".equals(timeMode);
+            String dateFormat = NativeKernel32.getLocaleInfoString(loc, LOCALE_SSHORTDATE);
+            String timeFormat = NativeKernel32.getLocaleInfoString(loc, LOCALE_STIMEFORMAT);
+            String decimalSep = NativeKernel32.getLocaleInfoString(loc, LOCALE_SDECIMAL);
+            String thousandSep = NativeKernel32.getLocaleInfoString(loc, LOCALE_STHOUSAND);
+
+            cachedRegionalInfo = new RegionalInfo(
+                    is24Hour,
+                    dateFormat != null ? dateFormat : "yyyy-MM-dd",
+                    timeFormat != null ? timeFormat : "HH:mm:ss",
+                    decimalSep != null ? decimalSep : ",",
+                    thousandSep != null ? thousandSep : "."
+            );
+            return cachedRegionalInfo;
+        }
+
+        cachedRegionalInfo = new RegionalInfo(true, "yyyy-MM-dd", "HH:mm:ss", ",", ".");
+        return cachedRegionalInfo;
+    }
+
+    /**
+     * Returns the active user keyboard layout identifier (HKL / LANGID).
+     *
+     * @return 16-bit or 32-bit layout ID, or 0 if unavailable.
+     */
+    public static long getKeyboardLayout() {
+        if (NativeKernel32.isAvailable()) {
+            return NativeKernel32.getKeyboardLayoutId();
+        }
+        return 0;
+    }
+
+    /**
      * Clears internal cached values in case OS preferences were dynamically changed.
      */
     public static void refresh() {
         cachedUILanguage = null;
         cachedSystemLanguage = null;
+        cachedRegionalInfo = null;
     }
 }
