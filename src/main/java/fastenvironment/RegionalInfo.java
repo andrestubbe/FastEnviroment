@@ -8,11 +8,13 @@ package fastenvironment;
  * @param timeFormat      OS time pattern (e.g. "HH:mm:ss")
  * @param decimalSeparator Decimal point symbol (e.g. "," or ".")
  * @param thousandSeparator Thousands grouping symbol (e.g. "." or ",")
+ * @param calendarType      OS calendar identifier (1 = Gregorian, etc.)
  */
 public record RegionalInfo(
         boolean is24HourFormat,
         String shortDateFormat,
         String timeFormat,
         String decimalSeparator,
-        String thousandSeparator
+        String thousandSeparator,
+        int calendarType
 ) {}

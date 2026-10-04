@@ -26,6 +26,7 @@ public final class FastEnvironment {
     private static final int LOCALE_STIMEFORMAT = 0x00001003; // time format string
     private static final int LOCALE_SDECIMAL = 0x0000000E; // decimal separator
     private static final int LOCALE_STHOUSAND = 0x0000000F; // thousand separator
+    private static final int LOCALE_ICALENDARTYPE = 0x00001009; // 1 = Gregorian, etc.
 
     private static volatile LanguageInfo cachedUILanguage;
     private static volatile LanguageInfo cachedSystemLanguage;
@@ -109,18 +110,26 @@ public final class FastEnvironment {
             String timeFormat = NativeKernel32.getLocaleInfoString(loc, LOCALE_STIMEFORMAT);
             String decimalSep = NativeKernel32.getLocaleInfoString(loc, LOCALE_SDECIMAL);
             String thousandSep = NativeKernel32.getLocaleInfoString(loc, LOCALE_STHOUSAND);
+            String calStr = NativeKernel32.getLocaleInfoString(loc, LOCALE_ICALENDARTYPE);
+            int calType = 1;
+            if (calStr != null) {
+                try {
+                    calType = Integer.parseInt(calStr.trim());
+                } catch (NumberFormatException ignored) {}
+            }
 
             cachedRegionalInfo = new RegionalInfo(
                     is24Hour,
                     dateFormat != null ? dateFormat : "yyyy-MM-dd",
                     timeFormat != null ? timeFormat : "HH:mm:ss",
                     decimalSep != null ? decimalSep : ",",
-                    thousandSep != null ? thousandSep : "."
+                    thousandSep != null ? thousandSep : ".",
+                    calType
             );
             return cachedRegionalInfo;
         }
 
-        cachedRegionalInfo = new RegionalInfo(true, "yyyy-MM-dd", "HH:mm:ss", ",", ".");
+        cachedRegionalInfo = new RegionalInfo(true, "yyyy-MM-dd", "HH:mm:ss", ",", ".", 1);
         return cachedRegionalInfo;
     }
 
