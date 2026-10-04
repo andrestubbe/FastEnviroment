@@ -26,7 +26,7 @@ final class NativeKernel32 {
         MethodHandle getLocaleInfo = null;
 
         try {
-            Linker linker = Linker.nativeLinker();
+            Linker linker = fastcore.FastCore.getNativeLinker();
             SymbolLookup kernel32 = SymbolLookup.libraryLookup("kernel32.dll", Arena.global());
             SymbolLookup user32 = SymbolLookup.libraryLookup("user32.dll", Arena.global());
 

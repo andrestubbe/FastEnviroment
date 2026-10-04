@@ -171,7 +171,7 @@ See [docs/REFERENCE.md](docs/REFERENCE.md) for complete details.
 
 ### Option 1: Maven (Recommended via JitPack)
 
-Add the JitPack repository and dependency to your `pom.xml`:
+Add the JitPack repository and dependencies to your `pom.xml`:
 
 ```xml
 <repositories>
@@ -187,6 +187,12 @@ Add the JitPack repository and dependency to your `pom.xml`:
         <artifactId>FastEnvironment</artifactId>
         <version>0.1.0</version>
     </dependency>
+    <!-- FastCore: Unified Native Loader & FFM Gateway -->
+    <dependency>
+        <groupId>com.github.andrestubbe</groupId>
+        <artifactId>FastCore</artifactId>
+        <version>0.1.1</version>
+    </dependency>
 </dependencies>
 ```
 
@@ -199,14 +205,16 @@ repositories {
 
 dependencies {
     implementation 'com.github.andrestubbe:FastEnvironment:0.1.0'
+    implementation 'com.github.andrestubbe:FastCore:0.1.1'
 }
 ```
 
-### Option 3: Direct Download (Pre-built JAR)
+### Option 3: Direct Download (Pre-built JARs)
 
-Download the pre-compiled JAR directly from the GitHub Release:
+Download the pre-compiled JARs directly from the GitHub Releases:
 
 - 📦 [**FastEnvironment-0.1.0.jar**](https://github.com/andrestubbe/FastEnvironment/releases/download/0.1.0/FastEnvironment-0.1.0.jar)
+- ⚙️ [**FastCore-0.1.1.jar**](https://github.com/andrestubbe/FastCore/releases/download/0.1.1/FastCore-0.1.1.jar)
 
 ---
 
