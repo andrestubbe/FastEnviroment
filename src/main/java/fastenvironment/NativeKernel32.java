@@ -13,6 +13,7 @@ final class NativeKernel32 {
     private static final MethodHandle GET_SYSTEM_DEFAULT_UI_LANGUAGE;
     private static final MethodHandle GET_USER_DEFAULT_LOCALE_NAME;
     private static final MethodHandle GET_SYSTEM_DEFAULT_LOCALE_NAME;
+    private static final MethodHandle LCID_TO_LOCALE_NAME;
     private static final MethodHandle GET_KEYBOARD_LAYOUT;
     private static final MethodHandle GET_LOCALE_INFO_EX;
 
@@ -24,6 +25,7 @@ final class NativeKernel32 {
         MethodHandle getSysUi = null;
         MethodHandle getLocaleName = null;
         MethodHandle getSysLocaleName = null;
+        MethodHandle lcidToLocale = null;
         MethodHandle getKbdLayout = null;
         MethodHandle getLocaleInfo = null;
 
@@ -67,6 +69,15 @@ final class NativeKernel32 {
                 );
             }
 
+            // int LCIDToLocaleName(LCID Locale, LPWSTR lpName, int cchName, DWORD dwFlags)
+            MemorySegment symLcidToLocale = kernel32.find("LCIDToLocaleName").orElse(null);
+            if (symLcidToLocale != null) {
+                lcidToLocale = linker.downcallHandle(
+                        symLcidToLocale,
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+                );
+            }
+
             // int GetLocaleInfoEx(LPCWSTR lpLocaleName, LCTYPE LCType, LPWSTR lpLCData, int cchData)
             MemorySegment symGetLocaleInfo = kernel32.find("GetLocaleInfoEx").orElse(null);
             if (symGetLocaleInfo != null) {
@@ -94,6 +105,7 @@ final class NativeKernel32 {
         GET_SYSTEM_DEFAULT_UI_LANGUAGE = getSysUi;
         GET_USER_DEFAULT_LOCALE_NAME = getLocaleName;
         GET_SYSTEM_DEFAULT_LOCALE_NAME = getSysLocaleName;
+        LCID_TO_LOCALE_NAME = lcidToLocale;
         GET_KEYBOARD_LAYOUT = getKbdLayout;
         GET_LOCALE_INFO_EX = getLocaleInfo;
         INITIALIZED = ok;
@@ -148,6 +160,25 @@ final class NativeKernel32 {
             final int maxLen = 85; // LOCALE_NAME_MAX_LENGTH
             MemorySegment buffer = arena.allocateArray(ValueLayout.JAVA_CHAR, maxLen);
             int charsCopied = (int) GET_SYSTEM_DEFAULT_LOCALE_NAME.invokeExact(buffer, maxLen);
+            if (charsCopied > 1) {
+                char[] chars = new char[charsCopied - 1];
+                for (int i = 0; i < chars.length; i++) {
+                    chars[i] = buffer.getAtIndex(ValueLayout.JAVA_CHAR, i);
+                }
+                return new String(chars);
+            }
+        } catch (Throwable t) {
+            // fallback
+        }
+        return null;
+    }
+
+    public static String lcidToLocaleName(int lcid) {
+        if (LCID_TO_LOCALE_NAME == null || lcid <= 0) return null;
+        try (Arena arena = Arena.ofConfined()) {
+            final int maxLen = 85; // LOCALE_NAME_MAX_LENGTH
+            MemorySegment buffer = arena.allocateArray(ValueLayout.JAVA_CHAR, maxLen);
+            int charsCopied = (int) LCID_TO_LOCALE_NAME.invokeExact(lcid, buffer, maxLen, 0);
             if (charsCopied > 1) {
                 char[] chars = new char[charsCopied - 1];
                 for (int i = 0; i < chars.length; i++) {

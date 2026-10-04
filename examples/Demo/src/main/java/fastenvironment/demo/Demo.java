@@ -44,6 +44,6 @@ public class Demo {
         System.out.println("[Keyboard Layout]");
         System.out.println("  Active HKL:       0x" + Long.toHexString(kbd).toUpperCase());
         System.out.println();
-        System.out.println("✔ FastEnvironment demonstration completed.");
+        System.out.println("[OK] FastEnvironment demonstration completed.");
     }
 }

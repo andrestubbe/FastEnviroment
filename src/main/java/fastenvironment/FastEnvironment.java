@@ -55,7 +55,10 @@ public final class FastEnvironment {
 
         if (NativeKernel32.isAvailable()) {
             int langId = NativeKernel32.getUserDefaultUILanguage();
-            String localeName = NativeKernel32.getUserDefaultLocaleName();
+            String localeName = NativeKernel32.lcidToLocaleName(langId);
+            if (localeName == null || localeName.isBlank()) {
+                localeName = NativeKernel32.getUserDefaultLocaleName();
+            }
             if (localeName != null && !localeName.isBlank()) {
                 cachedUILanguage = LanguageInfo.of(langId, localeName);
                 return cachedUILanguage;
@@ -80,7 +83,10 @@ public final class FastEnvironment {
 
         if (NativeKernel32.isAvailable()) {
             int langId = NativeKernel32.getSystemDefaultUILanguage();
-            String localeName = NativeKernel32.getSystemDefaultLocaleName();
+            String localeName = NativeKernel32.lcidToLocaleName(langId);
+            if (localeName == null || localeName.isBlank()) {
+                localeName = NativeKernel32.getSystemDefaultLocaleName();
+            }
             if (localeName != null && !localeName.isBlank()) {
                 cachedSystemLanguage = LanguageInfo.of(langId, localeName);
                 return cachedSystemLanguage;
