@@ -36,6 +36,7 @@ public class Demo {
         System.out.println("  Time Format:      " + reg.timeFormat());
         System.out.println("  Decimal Separator: '" + reg.decimalSeparator() + "'");
         System.out.println("  Thousand Separator:'" + reg.thousandSeparator() + "'");
+        System.out.println("  Calendar Type:     " + reg.calendarType() + " (1 = Gregorian)");
         System.out.println();
 
         // 4. Keyboard Layout

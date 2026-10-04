@@ -31,11 +31,12 @@ public class Demo {
         System.out.println("ISO-2 Code:      " + uiLang.iso2());     // e.g. "de", "en"
         System.out.printf("Language ID:     0x%X%n", uiLang.langId());
 
-        // 2. Query regional time and number formatting
+        // 2. Query regional time, number formatting and calendar type
         RegionalInfo regional = FastEnvironment.getRegionalInfo();
         System.out.println("24-Hour Clock:   " + regional.is24HourFormat());
         System.out.println("Date Pattern:    " + regional.shortDateFormat());
         System.out.println("Decimal Point:   " + regional.decimalSeparator());
+        System.out.println("Calendar Type:   " + regional.calendarType()); // 1 = Gregorian
 
         // 3. Query active thread keyboard layout
         long hkl = FastEnvironment.getKeyboardLayout();
@@ -86,7 +87,7 @@ In modern desktop UI engines, CLI tools, and autonomous AI agents, operating sys
 - 🌐 **Direct Win32 FFM Interop** — Invokes Windows `kernel32.dll` and `user32.dll` directly via Java 21+ Foreign Function & Memory API (`java.lang.foreign`).
 - ⚡ **Zero Native Compilation** — No MSVC, no CMake, and no separate C++ DLL binary required.
 - 🎯 **Accurate OS UI Language** — Distinguishes between User Preferred UI Language (`GetUserDefaultUILanguage`), System Default (`GetSystemDefaultUILanguage`), and BCP-47 locale tags (`GetUserDefaultLocaleName`).
-- 🕒 **Regional Formatting Telemetry** — Extracts active clock format (24-hour vs 12-hour AM/PM), short date format patterns, time patterns, and decimal/thousands separators directly from Windows NLS.
+- 🕒 **Regional Formatting Telemetry** — Extracts active clock format (24-hour vs 12-hour AM/PM), short date format patterns, time patterns, decimal/thousands separators, and calendar type (`LOCALE_ICALENDARTYPE`, e.g. Gregorian) directly from Windows NLS.
 - ⌨️ **Keyboard Layout Detection** — Queries active thread input locale handles (`HKL`) for layout-aware robot automation and hotkeys.
 - 🛡️ **Graceful JVM Fallback** — Transparently falls back to standard JVM `Locale.getDefault()` on non-Windows platforms.
 
@@ -149,7 +150,7 @@ Formal microbenchmarks executed via **OpenJDK JMH**:
 | `FastEnvironment.isNativeAvailable()` | `boolean` | Checks if native Win32 FFM access is operational. | [Reference](docs/REFERENCE.md) |
 | `FastEnvironment.getUILanguage()` | `LanguageInfo` | Returns preferred user UI language (BCP-47 tag, ISO-2, LANGID). | [Reference](docs/REFERENCE.md) |
 | `FastEnvironment.getSystemLanguage()` | `LanguageInfo` | Returns system-wide default UI language. | [Reference](docs/REFERENCE.md) |
-| `FastEnvironment.getRegionalInfo()` | `RegionalInfo` | Returns 24h clock mode, date/time patterns, and separators. | [Reference](docs/REFERENCE.md) |
+| `FastEnvironment.getRegionalInfo()` | `RegionalInfo` | Returns 24h clock mode, date/time patterns, separators, and calendar type. | [Reference](docs/REFERENCE.md) |
 | `FastEnvironment.getKeyboardLayout()` | `long` | Returns the active thread keyboard layout handle (`HKL`). | [Reference](docs/REFERENCE.md) |
 | `FastEnvironment.refresh()` | `void` | Invalidates cached state to force fresh OS query. | [Reference](docs/REFERENCE.md) |
 

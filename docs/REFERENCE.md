@@ -15,7 +15,7 @@ Central facade providing static accessors and telemetry caches.
 | `isNativeAvailable()` | `boolean` | Verifies whether native Win32 `kernel32.dll` and `user32.dll` FFM downcalls are operational on this machine. |
 | `getUILanguage()` | `LanguageInfo` | Returns the active OS UI language preferred by the current user (e.g. `de-DE`, `en-US`). |
 | `getSystemLanguage()` | `LanguageInfo` | Returns the system-wide default UI language. |
-| `getRegionalInfo()` | `RegionalInfo` | Returns active regional settings: 24h clock mode, date format pattern, time pattern, decimal and thousand separators. |
+| `getRegionalInfo()` | `RegionalInfo` | Returns active regional settings: 24h clock mode, date format pattern, time pattern, decimal/thousand separators, and calendar type. |
 | `getKeyboardLayout()` | `long` | Returns the active thread's keyboard layout handle (`HKL` / `LANGID`). |
 | `refresh()` | `void` | Invalidates cached records to query live OS settings afresh. |
 
@@ -46,7 +46,8 @@ public record RegionalInfo(
     String shortDateFormat,
     String timeFormat,
     String decimalSeparator,
-    String thousandSeparator
+    String thousandSeparator,
+    int calendarType
 )
 ```
 
@@ -55,3 +56,4 @@ public record RegionalInfo(
 - `timeFormat`: Time pattern string (e.g. `"HH:mm:ss"`).
 - `decimalSeparator`: Decimal delimiter symbol (e.g. `","` or `"."`).
 - `thousandSeparator`: Thousands grouping symbol (e.g. `"."` or `","`).
+- `calendarType`: Windows NLS Calendar identifier (`LOCALE_ICALENDARTYPE`, e.g. `1` = Gregorian, `2` = Gregorian (US English), `3` = Japan Emperor Era, `6` = Hijri, `7` = Hebrew).
