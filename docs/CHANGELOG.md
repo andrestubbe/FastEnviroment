@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2026-10-11
+### Changed
+- **Ecosystem & Dependency Synchronization**: Version bump to `0.1.1` for synchronization with the FastJava ecosystem and downstream integration (`Speak+`).
+- **Telemetry & Stability Maintenance**: Verified zero-overhead Java 21+ FFM downcalls for Windows UI language and regional formatting inspection.
+
+---
+
 ## [0.1.0] - 2026-10-04
 ### Added
 - **Native Java 21+ FFM Substrate**: Direct downcall linkage into Win32 `kernel32.dll` and `user32.dll` via `java.lang.foreign` with zero C++ compilation or native DLL packaging.
