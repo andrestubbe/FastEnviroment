@@ -43,6 +43,11 @@ public class Demo {
         // 3. Query active thread keyboard layout
         long hkl = FastEnvironment.getKeyboardLayout();
         System.out.println("Keyboard Layout: 0x" + Long.toHexString(hkl).toUpperCase());
+
+        // 4. Detect terminal session vs GUI desktop launch
+        boolean isTerminal = FastEnvironment.isTerminalSession();
+        System.out.println("Interactive Terminal: " + isTerminal);
+        System.out.println("GUI Desktop Launch:   " + FastEnvironment.isGuiLaunch());
     }
 }
 ```
@@ -152,6 +157,8 @@ Formal microbenchmarks executed via **OpenJDK JMH**:
 | Method / Signature | Return Type | Description | Docs |
 |:---|:---|:---|:---|
 | `FastEnvironment.isNativeAvailable()` | `boolean` | Checks if native Win32 FFM access is operational. | [Reference](docs/REFERENCE.md) |
+| `FastEnvironment.isTerminalSession()` | `boolean` | Detects if launched from interactive terminal vs GUI/desktop. | [Reference](docs/REFERENCE.md) |
+| `FastEnvironment.isGuiLaunch()` | `boolean` | Returns `true` if launched from GUI, desktop shortcut, or launcher. | [Reference](docs/REFERENCE.md) |
 | `FastEnvironment.getUILanguage()` | `LanguageInfo` | Returns preferred user UI language (BCP-47 tag, ISO-2, LANGID). | [Reference](docs/REFERENCE.md) |
 | `FastEnvironment.getSystemLanguage()` | `LanguageInfo` | Returns system-wide default UI language. | [Reference](docs/REFERENCE.md) |
 | `FastEnvironment.getRegionalInfo()` | `RegionalInfo` | Returns 24h clock mode, date/time patterns, separators, and calendar type. | [Reference](docs/REFERENCE.md) |

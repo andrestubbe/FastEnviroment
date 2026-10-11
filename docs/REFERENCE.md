@@ -13,6 +13,8 @@ Central facade providing static accessors and telemetry caches.
 | Method | Return Type | Description |
 |:---|:---|:---|
 | `isNativeAvailable()` | `boolean` | Verifies whether native Win32 `kernel32.dll` and `user32.dll` FFM downcalls are operational on this machine. |
+| `isTerminalSession()` | `boolean` | Detects whether the application was launched from an interactive terminal (CMD, PowerShell, Windows Terminal, Bash) vs. a GUI/desktop environment using `GetConsoleProcessList`. |
+| `isGuiLaunch()` | `boolean` | Convenient inverse of `isTerminalSession()`; returns `true` if started from GUI, Explorer, Raycast, or desktop shortcut. |
 | `getUILanguage()` | `LanguageInfo` | Returns the active OS UI language preferred by the current user (e.g. `de-DE`, `en-US`). |
 | `getSystemLanguage()` | `LanguageInfo` | Returns the system-wide default UI language. |
 | `getRegionalInfo()` | `RegionalInfo` | Returns active regional settings: 24h clock mode, date format pattern, time pattern, decimal/thousand separators, and calendar type. |

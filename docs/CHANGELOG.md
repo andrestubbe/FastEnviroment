@@ -3,9 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ## [0.1.1] - 2026-10-11
+### Added
+- **Terminal vs. GUI Session Detection (`isTerminalSession()` / `isGuiLaunch()`)**: Zero-overhead detection via Win32 FFM `GetConsoleProcessList`. Distinguishes whether the process was invoked from an interactive terminal session (PowerShell, CMD, Windows Terminal, Bash) or launched directly from a GUI desktop environment (Explorer, launcher, desktop shortcut).
+
 ### Changed
 - **Ecosystem & Dependency Synchronization**: Version bump to `0.1.1` for synchronization with the FastJava ecosystem and downstream integration (`Speak+`).
 - **Telemetry & Stability Maintenance**: Verified zero-overhead Java 21+ FFM downcalls for Windows UI language and regional formatting inspection.
+- **Build Cleanup**: Removed redundant Maven wrapper scripts (`mvnw`, `mvnw.cmd`, `.mvn/`).
 
 ---
 

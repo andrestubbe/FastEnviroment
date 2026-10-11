@@ -44,6 +44,42 @@ public final class FastEnvironment {
     }
 
     /**
+     * Checks if the application was started within an interactive terminal session
+     * (e.g. CMD, PowerShell, Windows Terminal, Bash, Alacritty, WezTerm).
+     *
+     * <p>Under Windows, queries {@code GetConsoleProcessList}:
+     * <ul>
+     *   <li>{@code count > 1}: Application was called from an existing interactive terminal &rarr; returns {@code true}.</li>
+     *   <li>{@code count == 1}: Application was launched directly via GUI, Explorer, Raycast, or shortcut &rarr; returns {@code false}.</li>
+     *   <li>Fallback: Inspects {@link System#console()}.</li>
+     * </ul>
+     *
+     * @return {@code true} if launched from a terminal/shell, {@code false} if launched as a GUI app.
+     */
+    public static boolean isTerminalSession() {
+        if (NativeKernel32.isAvailable()) {
+            int processCount = NativeKernel32.getConsoleProcessCount();
+            if (processCount > 1) {
+                return true;
+            }
+            if (processCount == 1) {
+                return false;
+            }
+        }
+        return System.console() != null;
+    }
+
+    /**
+     * Returns {@code true} if the application was launched from a GUI environment
+     * (e.g. Windows Explorer, launcher, desktop shortcut, or window manager).
+     *
+     * @return {@code true} if launched as a GUI application, {@code false} if run from a terminal.
+     */
+    public static boolean isGuiLaunch() {
+        return !isTerminalSession();
+    }
+
+    /**
      * Returns the active OS UI language preferred by the current user.
      *
      * @return current {@link LanguageInfo}

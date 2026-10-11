@@ -9,6 +9,7 @@ import java.lang.invoke.MethodHandle;
  */
 final class NativeKernel32 {
 
+    private static final MethodHandle GET_CONSOLE_PROCESS_LIST;
     private static final MethodHandle GET_USER_DEFAULT_UI_LANGUAGE;
     private static final MethodHandle GET_SYSTEM_DEFAULT_UI_LANGUAGE;
     private static final MethodHandle GET_USER_DEFAULT_LOCALE_NAME;
@@ -21,6 +22,7 @@ final class NativeKernel32 {
 
     static {
         boolean ok = false;
+        MethodHandle getProcessList = null;
         MethodHandle getUserUi = null;
         MethodHandle getSysUi = null;
         MethodHandle getLocaleName = null;
@@ -33,6 +35,15 @@ final class NativeKernel32 {
             Linker linker = Linker.nativeLinker();
             SymbolLookup kernel32 = SymbolLookup.libraryLookup("kernel32.dll", Arena.global());
             SymbolLookup user32 = SymbolLookup.libraryLookup("user32.dll", Arena.global());
+
+            // DWORD GetConsoleProcessList(LPDWORD lpdwProcessList, DWORD dwProcessCount)
+            MemorySegment symGetProcessList = kernel32.find("GetConsoleProcessList").orElse(null);
+            if (symGetProcessList != null) {
+                getProcessList = linker.downcallHandle(
+                        symGetProcessList,
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+                );
+            }
 
             // LANGID GetUserDefaultUILanguage()
             MemorySegment symGetUserUi = kernel32.find("GetUserDefaultUILanguage").orElse(null);
@@ -96,6 +107,7 @@ final class NativeKernel32 {
             ok = false;
         }
 
+        GET_CONSOLE_PROCESS_LIST = getProcessList;
         GET_USER_DEFAULT_UI_LANGUAGE = getUserUi;
         GET_SYSTEM_DEFAULT_UI_LANGUAGE = getSysUi;
         GET_USER_DEFAULT_LOCALE_NAME = getLocaleName;
@@ -108,6 +120,16 @@ final class NativeKernel32 {
 
     public static boolean isAvailable() {
         return INITIALIZED;
+    }
+
+    public static int getConsoleProcessCount() {
+        if (GET_CONSOLE_PROCESS_LIST == null) return 0;
+        try (Arena arena = Arena.ofConfined()) {
+            MemorySegment buffer = arena.allocateArray(ValueLayout.JAVA_INT, 4);
+            return (int) GET_CONSOLE_PROCESS_LIST.invokeExact(buffer, 4);
+        } catch (Throwable t) {
+            return 0;
+        }
     }
 
     public static int getUserDefaultUILanguage() {
